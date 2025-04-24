@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mix Beat - نشر التركات</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #000000, #1a0000, #330000, #4d0000);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            opacity: 0.8;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-spinner {
+            border: 5px solid rgba(255, 0, 0, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid #ff0000;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            color: #ff0000;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #ff0000; }
+            to { text-shadow: 0 0 20px #ff0000, 0 0 30px #ff3333; }
+        }
+        
+        .legal-notice {
+            background-color: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .legal-notice h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .legal-notice p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff0000;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff0000;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff3333;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .submit-btn {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        
+        .form-loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .form-loading-text {
+            color: #ff0000;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">جاري التحميل...<br>Loading...</p>
+    </div>
+    
+    <div class="background-animation"></div>
+    <div class="particles" id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">MIX BEAT</div>
+        </header>
+        
+        <div class="legal-notice">
+            <h2>!تنبيه قانوني هام</h2>
+            <p>يجب أن يكون الإيقاع المقدم حصرياً وأن تمتلك جميع حقوق الملكية الفكرية له. يجب إرفاق صورة التراك مع الطلب. في حال اكتشاف أي انتهاك للحقوق أو عدم أصالة الإيقاع، سيتم حظرك نهائياً من النظام.</p>
+            <p>The beat must be exclusive and you must own all intellectual property rights. You must attach the track image with your submission. If any rights violation or non-exclusivity is discovered, you will be permanently banned from the system.</p>
+            <p>يجب أن تكون الصورة بصيغة PNG بحجم 3000x3000 بكسل على الأقل</p>
+            <p>Image must be in PNG format with minimum 3000x3000 pixels</p>
+            <p>يجب أن يكون الإيقاع بصيغة MP3</p>
+            <p>Beat must be in MP3 format</p>
+        </div>
+        
+        <div class="form-container">
+            <h2 class="form-title">نشر تراك جديد</h2>
+            
+            <form id="beat-submission-form">
+                <div class="form-group">
+                    <label for="beat-name">اسم التراك</label>
+                    <input type="text" id="beat-name" name="beat-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="artist-name">اسم الفنان</label>
+                    <input type="text" id="artist-name" name="artist-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني المسجل بالشركة</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">البلد</label>
+                    <input type="text" id="country" name="country" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="beat-type">نوع التراك</label>
+                    <select id="beat-type" name="beat-type" required>
+                        <option value="">اختر نوع التراك</option>
+                        <option value="Trap">Trap</option>
+                        <option value="Drill">Drill</option>
+                        <option value="Afrobeat">Afrobeat</option>
+                        <option value="R&B">R&B</option>
+                        <option value="Hip-Hop">Hip-Hop</option>
+                        <option value="Pop">Pop</option>
+                        <option value="Other">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="release-date">تاريخ الإصدار</label>
+                    <input type="date" id="release-date" name="release-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="collaboration">تعاون مع (اختياري)</label>
+                    <input type="text" id="collaboration" name="collaboration" placeholder="أسماء المشاركين في العمل">
+                </div>
+                
+                <div class="form-group">
+                    <label for="writer">الكاتب (اختياري)</label>
+                    <input type="text" id="writer" name="writer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="composer">الملحن (اختياري)</label>
+                    <input type="text" id="composer" name="composer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="beat-file">ملف التراك (MP3)</label>
+                    <input type="file" id="beat-file" name="beat-file" accept=".mp3" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image-file">صورة التراك (PNG - 3000x3000 بكسل)</label>
+                    <input type="file" id="image-file" name="image-file" accept=".png" required>
+                </div>
+                
+                <button type="submit" class="submit-btn">إرسال التراك</button>
+                
+                <div class="form-loading" id="formLoading">
+                    <div class="loading-spinner"></div>
+                    <p class="form-loading-text">جاري الإرسال...</p>
+                </div>
+            </form>
+        </div>
+        
+        <footer>
+            <p>سيتم الرد عليك على البريد المسجل خلال 48 ساعة</p>
+            <p>You will receive a response to your registered email within 48 hours</p>
+            <p>&copy; 2023 Mix Beat. جميع الحقوق محفوظة.</p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ff0000"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ff0000",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+        
+        // Form submission handling
+        document.getElementById('beat-submission-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading animation
+            document.getElementById('formLoading').style.display = 'block';
+            
+            // Collect form data
+            const formData = {
+                beatName: document.getElementById('beat-name').value,
+                artistName: document.getElementById('artist-name').value,
+                email: document.getElementById('email').value,
+                country: document.getElementById('country').value,
+                beatType: document.getElementById('beat-type').value,
+                releaseDate: document.getElementById('release-date').value,
+                collaboration: document.getElementById('collaboration').value,
+                writer: document.getElementById('writer').value,
+                composer: document.getElementById('composer').value
+            };
+            
+            // Prepare email content
+            const subject = `طلب نشر تراك جديد - ${formData.beatName}`;
+            let body = `تفاصيل طلب نشر التراك:\n\n`;
+            body += `اسم التراك: ${formData.beatName}\n`;
+            body += `اسم الفنان: ${formData.artistName}\n`;
+            body += `البريد الإلكتروني: ${formData.email}\n`;
+            body += `البلد: ${formData.country}\n`;
+            body += `نوع التراك: ${formData.beatType}\n`;
+            body += `تاريخ الإصدار: ${formData.releaseDate}\n`;
+            if (formData.collaboration) body += `تعاون مع: ${formData.collaboration}\n`;
+            if (formData.writer) body += `الكاتب: ${formData.writer}\n`;
+            if (formData.composer) body += `الملحن: ${formData.composer}\n`;
+            body += `\nملاحظة: تم رفع ملفات الصوت والصورة مع هذا الطلب.`;
+            
+            // Encode URI for mailto link
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body);
+            const mailtoLink = `mailto:mix8eat@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
+            
+            // Simulate form submission delay
+            setTimeout(function() {
+                // Hide loading animation
+                document.getElementById('formLoading').style.display = 'none';
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Show success message
+                alert('تم تجهيز البريد الإلكتروني بنجاح! سيتم فتح عميل البريد الإلكتروني الخاص بك. يرجى إرسال البريد مع المرفقات.');
+                
+                // Reset form
+                document.getElementById('beat-submission-form').reset();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
