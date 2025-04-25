@@ -120,95 +120,21 @@
             to { text-shadow: 0 0 20px #ff0000, 0 0 30px #ff3333; }
         }
         
-        /* زر خدماتنا مع أنيميشن 4K */
         .services-btn {
-            position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #ff0000, #ff3333, #ff6666);
+            display: inline-block;
+            background-color: #ff0000;
             color: #fff;
-            padding: 15px 25px;
-            border-radius: 50px;
+            padding: 10px 20px;
+            border-radius: 5px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.2rem;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5),
-                        0 0 40px rgba(255, 0, 0, 0.3),
-                        0 0 60px rgba(255, 0, 0, 0.1);
-            z-index: 100;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: pulse 2s infinite, float 3s ease-in-out infinite;
+            font-weight: 500;
+            margin: 10px 0;
             transition: all 0.3s ease;
-            text-align: center;
-            backdrop-filter: blur(5px);
-            overflow: hidden;
-        }
-        
-        .services-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0.3),
-                rgba(255, 255, 255, 0)
-            );
-            transform: rotate(30deg);
-            animation: shine 3s infinite;
         }
         
         .services-btn:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7),
-                        0 0 50px rgba(255, 0, 0, 0.5),
-                        0 0 70px rgba(255, 0, 0, 0.3);
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.8); }
-            100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(-50%) translateY(0px); }
-            50% { transform: translateY(-50%) translateY(-10px); }
-            100% { transform: translateY(-50%) translateY(0px); }
-        }
-        
-        @keyframes shine {
-            0% { transform: rotate(30deg) translate(-30%, -30%); }
-            100% { transform: rotate(30deg) translate(30%, 30%); }
-        }
-        
-        /* زر خدمات الفنانين في الأسفل */
-        .artists-btn {
-            position: fixed;
-            left: 20px;
-            bottom: 20px;
-            background: linear-gradient(135deg, #990000, #cc0000, #ff0000);
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-            z-index: 100;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: pulse 2s infinite;
-            transition: all 0.3s ease;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .artists-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+            background-color: #cc0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
         }
         
         .legal-notice {
@@ -328,19 +254,6 @@
             .form-container {
                 padding: 20px;
             }
-            
-            .services-btn {
-                left: 10px;
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-            
-            .artists-btn {
-                left: 10px;
-                bottom: 10px;
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
         }
     </style>
 </head>
@@ -353,15 +266,10 @@
     <div class="background-animation"></div>
     <div class="particles" id="particles-js"></div>
     
-    <!-- زر خدماتنا مع أنيميشن -->
-    <a href="https://mixbeat.github.io/MIX-BEAT/" class="services-btn">خدماتنا</a>
-    
-    <!-- زر خدمات الفنانين -->
-    <a href="https://mixbeat.github.io/MIX-BEAT/" class="artists-btn">خدمات الفنانين</a>
-    
     <div class="container">
         <header>
             <div class="logo">MIX BEAT</div>
+            <a href="https://mixbeat.github.io/MIX-BEAT/" class="services-btn">خدماتنا</a>
         </header>
         
         <div class="legal-notice">
