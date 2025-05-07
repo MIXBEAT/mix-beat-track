@@ -99,11 +99,14 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid #ff0000;
             border-radius: 5px;
-            color: #fff;
+            color: transparent;
             font-size: 1.2rem;
             text-align: center;
             outline: none;
             transition: all 0.3s;
+            text-shadow: 0 0 8px rgba(255,0,0,0.5);
+            letter-spacing: 3px;
+            caret-color: transparent;
         }
         
         .password-input:focus {
@@ -463,7 +466,7 @@
         <div class="password-container">
             <div class="password-logo">MIX BEAT</div>
             <h2 class="password-title">أدخل كود فتح المنصة</h2>
-            <input type="password" class="password-input" id="passwordInput" placeholder="001100">
+            <input type="text" class="password-input" id="passwordInput" placeholder="001100" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button class="password-btn" id="passwordBtn">دخول</button>
             <div class="password-error" id="passwordError">كود الدخول غير صحيح!</div>
         </div>
@@ -581,6 +584,7 @@
     <script>
         // كود فتح المنصة الصحيح
         const CORRECT_CODE = "001100";
+        let enteredCode = "";
         
         // إنشاء النجوم المتلألئة
         function createStars() {
@@ -598,12 +602,12 @@
                 const duration = 2 + Math.random() * 3;
                 const delay = Math.random() * 5;
                 
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${posX}%`;
-                star.style.top = `${posY}%`;
-                star.style.setProperty('--duration', `${duration}s`);
-                star.style.animationDelay = `${delay}s`;
+                star.style.width = ${size}px;
+                star.style.height = ${size}px;
+                star.style.left = ${posX}%;
+                star.style.top = ${posY}%;
+                star.style.setProperty('--duration', ${duration}s);
+                star.style.animationDelay = ${delay}s;
                 
                 starsContainer.appendChild(star);
             }
@@ -613,344 +617,4 @@
         function initPasswordParticles() {
             particlesJS("passwordParticles", {
                 "particles": {
-                    "number": {
-                        "value": 60,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#ff0000"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        },
-                        "polygon": {
-                            "nb_sides": 5
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.7,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 1,
-                            "opacity_min": 0.1,
-                            "sync": false
-                        }
-                    },
-                    "size": {
-                        "value": 4,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 4,
-                            "size_min": 0.3,
-                            "sync": false
-                        }
-                    },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 120,
-                        "color": "#ff0000",
-                        "opacity": 0.4,
-                        "width": 1
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 3,
-                        "direction": "none",
-                        "random": true,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false,
-                        "attract": {
-                            "enable": false,
-                            "rotateX": 600,
-                            "rotateY": 1200
-                        }
-                    }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "repulse"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "grab": {
-                            "distance": 140,
-                            "line_linked": {
-                                "opacity": 1
-                            }
-                        },
-                        "bubble": {
-                            "distance": 400,
-                            "size": 40,
-                            "duration": 2,
-                            "opacity": 8,
-                            "speed": 3
-                        },
-                        "repulse": {
-                            "distance": 100,
-                            "duration": 0.4
-                        },
-                        "push": {
-                            "particles_nb": 4
-                        },
-                        "remove": {
-                            "particles_nb": 2
-                        }
-                    }
-                },
-                "retina_detect": true
-            });
-        }
-        
-        // التحقق من الكود
-        function checkPassword() {
-            const passwordInput = document.getElementById('passwordInput');
-            const passwordError = document.getElementById('passwordError');
-            const passwordProtection = document.getElementById('passwordProtection');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (passwordInput.value === CORRECT_CODE) {
-                // الكود صحيح
-                passwordProtection.style.opacity = '0';
-                setTimeout(() => {
-                    passwordProtection.style.display = 'none';
-                    mainContent.style.display = 'block';
-                    
-                    // بدء تحميل الموقع
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').style.display = 'flex';
-                        window.dispatchEvent(new Event('load'));
-                    }, 500);
-                }, 500); 
-            } else {
-                // الكود خاطئ
-                passwordInput.style.borderColor = '#ff0000';
-                passwordInput.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.7)';
-                passwordInput.style.animation = 'shake 0.5s';
-                passwordError.classList.add('show');
-                
-                // إعادة تعيين تأثير الهز
-                setTimeout(() => {
-                    passwordInput.style.animation = '';
-                }, 500);
-            }
-        }
-        
-        // تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            // إنشاء النجوم
-            createStars();
-            
-            // تهيئة جسيمات الكود
-            initPasswordParticles();
-            
-            // إضافة مستمع لأزرار الكود
-            document.getElementById('passwordBtn').addEventListener('click', checkPassword);
-            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    checkPassword();
-                }
-            });
-            
-            // إضافة تأثير هز عند الخطأ
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-                    20%, 40%, 60%, 80% { transform: translateX(10px); }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-        
-        // Initialize particles.js للمحتوى الرئيسي
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ff0000"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    }
-                },
-                "opacity": {
-                    "value": 0.5,
-                    "random": false,
-                    "anim": {
-                        "enable": false,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ff0000",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 2,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 1
-                        }
-                    },
-                    "bubble": {
-                        "distance": 400,
-                        "size": 40,
-                        "duration": 2,
-                        "opacity": 8,
-                        "speed": 3
-                    },
-                    "repulse": {
-                        "distance": 200,
-                        "duration": 0.4
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    },
-                    "remove": {
-                        "particles_nb": 2
-                    }
-                }
-            },
-            "retina_detect": true
-        });
-        
-        // Loading screen
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('loadingScreen').style.opacity = '0';
-                setTimeout(function() {
-                    document.getElementById('loadingScreen').style.display = 'none';
-                }, 500);
-            }, 1500);
-        });
-        
-        // Form submission handling
-        document.getElementById('beat-submission-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading animation
-            document.getElementById('formLoading').style.display = 'block';
-            
-            // Collect form data
-            const formData = {
-                beatName: document.getElementById('beat-name').value,
-                artistName: document.getElementById('artist-name').value,
-                email: document.getElementById('email').value,
-                country: document.getElementById('country').value,
-                beatType: document.getElementById('beat-type').value,
-                releaseDate: document.getElementById('release-date').value,
-                collaboration: document.getElementById('collaboration').value,
-                writer: document.getElementById('writer').value,
-                composer: document.getElementById('composer').value
-            };
-            
-            // Prepare email content
-            const subject = `طلب نشر تراك جديد - ${formData.beatName}`;
-            let body = `تفاصيل طلب نشر التراك:\n\n`;
-            body += `اسم التراك: ${formData.beatName}\n`;
-            body += `اسم الفنان: ${formData.artistName}\n`;
-            body += `البريد الإلكتروني: ${formData.email}\n`;
-            body += `البلد: ${formData.country}\n`;
-            body += `نوع التراك: ${formData.beatType}\n`;
-            body += `تاريخ الإصدار: ${formData.releaseDate}\n`;
-            if (formData.collaboration) body += `تعاون مع: ${formData.collaboration}\n`;
-            if (formData.writer) body += `الكاتب: ${formData.writer}\n`;
-            if (formData.composer) body += `الملحن: ${formData.composer}\n`;
-            body += `\nملاحظة: تم رفع ملفات الصوت والصورة مع هذا الطلب.`;
-            
-            // Encode URI for mailto link
-            const encodedSubject = encodeURIComponent(subject);
-            const encodedBody = encodeURIComponent(body);
-            const mailtoLink = `mailto:mix8eat@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
-            
-            // Simulate form submission delay
-            setTimeout(function() {
-                // Hide loading animation
-                document.getElementById('formLoading').style.display = 'none';
-                
-                // Open email client
-                window.location.href = mailtoLink;
-                
-                // Show success message
-                alert('تم تجهيز البريد الإلكتروني بنجاح! سيتم فتح عميل البريد الإلكتروني الخاص بك. يرجى إرسال البريد مع المرفقات.');
-                
-                // Reset form
-                document.getElementById('beat-submission-form').reset();
-            }, 2000);
-        });
-    </script>
-</body>
-</html>
+                    "number"
