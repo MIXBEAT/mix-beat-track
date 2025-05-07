@@ -15,6 +15,190 @@
             font-family: 'Tajawal', sans-serif;
         }
         
+        /* أنميشن دخول الكود */
+        .password-protection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #1a0000, #330000, #4d0000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 99999;
+            overflow: hidden;
+        }
+        
+        .password-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            transform: scale(0.8);
+            opacity: 0;
+            animation: scaleIn 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .password-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 0, 0, 0) 0%,
+                rgba(255, 0, 0, 0.1) 50%,
+                rgba(255, 0, 0, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .password-logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff0000;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        .password-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .password-input:focus {
+            border-color: #ff3333;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            transform: scale(1.02);
+        }
+        
+        .password-btn {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .password-btn:hover {
+            background: linear-gradient(45deg, #cc0000, #ff0000);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .password-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+        
+        .password-btn:hover::after {
+            left: 100%;
+        }
+        
+        .password-error {
+            color: #ff0000;
+            margin-top: 15px;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .password-error.show {
+            opacity: 1;
+        }
+        
+        /* أنميشن الجسيمات للكود */
+        .password-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* أنميشن النجمة */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* بقية الأنميات كما هي */
         body {
             background-color: #000;
             color: #fff;
@@ -255,10 +439,36 @@
             .form-container {
                 padding: 20px;
             }
+            
+            .password-container {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .password-logo {
+                font-size: 2rem;
+            }
+            
+            .password-title {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- شاشة حماية الكود -->
+    <div class="password-protection" id="passwordProtection">
+        <div class="stars" id="stars"></div>
+        <div class="password-particles" id="passwordParticles"></div>
+        <div class="password-container">
+            <div class="password-logo">MIX BEAT</div>
+            <h2 class="password-title">أدخل كود فتح المنصة</h2>
+            <input type="password" class="password-input" id="passwordInput" placeholder="001100">
+            <button class="password-btn" id="passwordBtn">دخول</button>
+            <div class="password-error" id="passwordError">كود الدخول غير صحيح!</div>
+        </div>
+    </div>
+    
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
         <p class="loading-text">جاري التحميل...<br>Loading...</p>
@@ -267,7 +477,7 @@
     <div class="background-animation"></div>
     <div class="particles" id="particles-js"></div>
     
-    <div class="container">
+    <div class="container" id="mainContent" style="display: none;">
         <header>
             <div class="logo">MIX BEAT</div>
             <a href="https://mixbeat.github.io/MIX-BEAT/" class="services-btn">خدماتنا</a>
@@ -369,7 +579,208 @@
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Initialize particles.js
+        // كود فتح المنصة الصحيح
+        const CORRECT_CODE = "001100";
+        
+        // إنشاء النجوم المتلألئة
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // تحديد مواقع وأحجام عشوائية للنجوم
+                const size = Math.random() * 3;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = 2 + Math.random() * 3;
+                const delay = Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // تهيئة الجسيمات لشاشة الكود
+        function initPasswordParticles() {
+            particlesJS("passwordParticles", {
+                "particles": {
+                    "number": {
+                        "value": 60,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ff0000"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.7,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 4,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 4,
+                            "size_min": 0.3,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 120,
+                        "color": "#ff0000",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 3,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "repulse"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 100,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+        
+        // التحقق من الكود
+        function checkPassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordError = document.getElementById('passwordError');
+            const passwordProtection = document.getElementById('passwordProtection');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (passwordInput.value === CORRECT_CODE) {
+                // الكود صحيح
+                passwordProtection.style.opacity = '0';
+                setTimeout(() => {
+                    passwordProtection.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    
+                    // بدء تحميل الموقع
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.display = 'flex';
+                        window.dispatchEvent(new Event('load'));
+                    }, 500);
+                }, 500); 
+            } else {
+                // الكود خاطئ
+                passwordInput.style.borderColor = '#ff0000';
+                passwordInput.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.7)';
+                passwordInput.style.animation = 'shake 0.5s';
+                passwordError.classList.add('show');
+                
+                // إعادة تعيين تأثير الهز
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+            }
+        }
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنشاء النجوم
+            createStars();
+            
+            // تهيئة جسيمات الكود
+            initPasswordParticles();
+            
+            // إضافة مستمع لأزرار الكود
+            document.getElementById('passwordBtn').addEventListener('click', checkPassword);
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            // إضافة تأثير هز عند الخطأ
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                    20%, 40%, 60%, 80% { transform: translateX(10px); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        // Initialize particles.js للمحتوى الرئيسي
         particlesJS("particles-js", {
             "particles": {
                 "number": {
