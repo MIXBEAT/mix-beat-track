@@ -1,294 +1,620 @@
-"number": {
-                        "value": 80,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#ff0000"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        },
-                        "polygon": {
-                            "nb_sides": 5
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.5,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 1,
-                            "opacity_min": 0.1,
-                            "sync": false
-                        }
-                    },
-                    "size": {
-                        "value": 3,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 2,
-                            "size_min": 0.1,
-                            "sync": false
-                        }
-                    },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 150,
-                        "color": "#ff0000",
-                        "opacity": 0.4,
-                        "width": 1
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 1,
-                        "direction": "none",
-                        "random": true,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false,
-                        "attract": {
-                            "enable": true,
-                            "rotateX": 600,
-                            "rotateY": 1200
-                        }
-                    }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "grab"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "grab": {
-                            "distance": 140,
-                            "line_linked": {
-                                "opacity": 1
-                            }
-                        },
-                        "bubble": {
-                            "distance": 400,
-                            "size": 40,
-                            "duration": 2,
-                            "opacity": 8,
-                            "speed": 3
-                        },
-                        "repulse": {
-                            "distance": 200,
-                            "duration": 0.4
-                        },
-                        "push": {
-                            "particles_nb": 4
-                        },
-                        "remove": {
-                            "particles_nb": 2
-                        }
-                    }
-                },
-                "retina_detect": true
-            });
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mix Beat - نشر التركات</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/6pL5K1J4/2025-04-01-21-52-32-efeb066c.jpg">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
         }
-
-        // تهيئة الجسيمات للصفحة الرئيسية
-        function initParticles() {
-            particlesJS("particles-js", {
+        
+        /* أنميشن دخول الكود */
+        .password-protection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #1a0000, #330000, #4d0000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 99999;
+            overflow: hidden;
+        }
+        
+        .password-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            transform: scale(0.8);
+            opacity: 0;
+            animation: scaleIn 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .password-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 0, 0, 0) 0%,
+                rgba(255, 0, 0, 0.1) 50%,
+                rgba(255, 0, 0, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .password-logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff0000;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        .password-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: transparent;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+            text-shadow: 0 0 8px rgba(255,0,0,0.5);
+            letter-spacing: 3px;
+            caret-color: transparent;
+        }
+        
+        .password-input:focus {
+            border-color: #ff3333;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            transform: scale(1.02);
+        }
+        
+        .password-btn {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .password-btn:hover {
+            background: linear-gradient(45deg, #cc0000, #ff0000);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .password-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+        
+        .password-btn:hover::after {
+            left: 100%;
+        }
+        
+        .password-error {
+            color: #ff0000;
+            margin-top: 15px;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .password-error.show {
+            opacity: 1;
+        }
+        
+        /* أنميشن الجسيمات للكود */
+        .password-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* أنميشن النجمة */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* بقية الأنميات كما هي */
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #000000, #1a0000, #330000, #4d0000);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            opacity: 0.8;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-spinner {
+            border: 5px solid rgba(255, 0, 0, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid #ff0000;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            color: #ff0000;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #ff0000; }
+            to { text-shadow: 0 0 20px #ff0000, 0 0 30px #ff3333; }
+        }
+        
+        .services-btn {
+            display: inline-block;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .services-btn:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+        
+        .legal-notice {
+            background-color: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .legal-notice h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .legal-notice p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff0000;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff0000;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff3333;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .submit-btn {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        
+        .form-loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .form-loading-text {
+            color: #ff0000;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .password-container {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .password-logo {
+                font-size: 2rem;
+            }
+            
+            .password-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شاشة حماية الكود -->
+    <div class="password-protection" id="passwordProtection">
+        <div class="stars" id="stars"></div>
+        <div class="password-particles" id="passwordParticles"></div>
+        <div class="password-container">
+            <div class="password-logo">MIX BEAT</div>
+            <h2 class="password-title">أدخل كود فتح المنصة</h2>
+            <input type="text" class="password-input" id="passwordInput" placeholder="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button class="password-btn" id="passwordBtn">دخول</button>
+            <div class="password-error" id="passwordError">كود الدخول غير صحيح!</div>
+        </div>
+    </div>
+    
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">جاري التحميل...<br>Loading...</p>
+    </div>
+    
+    <div class="background-animation"></div>
+    <div class="particles" id="particles-js"></div>
+    
+    <div class="container" id="mainContent" style="display: none;">
+        <header>
+            <div class="logo">MIX BEAT</div>
+            <a href="https://mixbeat.github.io/MIX-BEAT/" class="services-btn">خدماتنا</a>
+        </header>
+        
+        <div class="legal-notice">
+            <h2>!تنبيه قانوني هام</h2>
+            <p>يجب أن يكون الإيقاع المقدم حصرياً وأن تمتلك جميع حقوق الملكية الفكرية له. يجب إرفاق صورة التراك مع الطلب. في حال اكتشاف أي انتهاك للحقوق أو عدم أصالة الإيقاع، سيتم حظرك نهائياً من النظام.</p>
+            <p>The beat must be exclusive and you must own all intellectual property rights. You must attach the track image with your submission. If any rights violation or non-exclusivity is discovered, you will be permanently banned from the system.</p>
+            <p>يجب أن تكون الصورة بصيغة PNG بحجم 3000x3000 بكسل على الأقل</p>
+            <p>Image must be in PNG format with minimum 3000x3000 pixels</p>
+            <p>يجب أن يكون الإيقاع بصيغة MP3</p>
+            <p>Beat must be in MP3 format</p>
+        </div>
+        
+        <div class="form-container">
+            <h2 class="form-title">نشر تراك جديد</h2>
+            
+            <form id="beat-submission-form">
+                <div class="form-group">
+                    <label for="beat-name">اسم التراك</label>
+                    <input type="text" id="beat-name" name="beat-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="artist-name">اسم الفنان</label>
+                    <input type="text" id="artist-name" name="artist-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني المسجل بالشركة</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">البلد</label>
+                    <input type="text" id="country" name="country" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="beat-type">نوع التراك</label>
+                    <select id="beat-type" name="beat-type" required>
+                        <option value="">اختر نوع التراك</option>
+                        <option value="Trap">Trap</option>
+                        <option value="Drill">Drill</option>
+                        <option value="Afrobeat">Afrobeat</option>
+                        <option value="R&B">R&B</option>
+                        <option value="Hip-Hop">Hip-Hop</option>
+                        <option value="Pop">Pop</option>
+                        <option value="Other">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="release-date">تاريخ الإصدار</label>
+                    <input type="date" id="release-date" name="release-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="collaboration">تعاون مع (اختياري)</label>
+                    <input type="text" id="collaboration" name="collaboration" placeholder="أسماء المشاركين في العمل">
+                </div>
+                
+                <div class="form-group">
+                    <label for="writer">الكاتب (اختياري)</label>
+                    <input type="text" id="writer" name="writer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="composer">الملحن (اختياري)</label>
+                    <input type="text" id="composer" name="composer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="beat-file">ملف التراك (MP3)</label>
+                    <input type="file" id="beat-file" name="beat-file" accept=".mp3" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image-file">صورة التراك (PNG - 3000x3000 بكسل)</label>
+                    <input type="file" id="image-file" name="image-file" accept=".png" required>
+                </div>
+                
+                <button type="submit" class="submit-btn">إرسال التراك</button>
+                
+                <div class="form-loading" id="formLoading">
+                    <div class="loading-spinner"></div>
+                    <p class="form-loading-text">جاري الإرسال...</p>
+                </div>
+            </form>
+        </div>
+        
+        <footer>
+            <p>سيتم الرد عليك على البريد المسجل خلال 48 ساعة</p>
+            <p>You will receive a response to your registered email within 48 hours</p>
+            <p>&copy; 2025 Mix Beat. جميع الحقوق محفوظة.</p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // كود فتح المنصة الصحيح
+        const CORRECT_CODE = "001100";
+        let enteredCode = "";
+        
+        // إنشاء النجوم المتلألئة
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // تحديد مواقع وأحجام عشوائية للنجوم
+                const size = Math.random() * 3;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = 2 + Math.random() * 3;
+                const delay = Math.random() * 5;
+                
+                star.style.width = ${size}px;
+                star.style.height = ${size}px;
+                star.style.left = ${posX}%;
+                star.style.top = ${posY}%;
+                star.style.setProperty('--duration', ${duration}s);
+                star.style.animationDelay = ${delay}s;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // تهيئة الجسيمات لشاشة الكود
+        function initPasswordParticles() {
+            particlesJS("passwordParticles", {
                 "particles": {
-                    "number": {
-                        "value": 60,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#ff0000"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.5,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 1,
-                            "opacity_min": 0.1,
-                            "sync": false
-                        }
-                    },
-                    "size": {
-                        "value": 3,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 2,
-                            "size_min": 0.1,
-                            "sync": false
-                        }
-                    },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 150,
-                        "color": "#ff0000",
-                        "opacity": 0.2,
-                        "width": 1
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 1,
-                        "direction": "none",
-                        "random": true,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false
-                    }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "grab"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "grab": {
-                            "distance": 140,
-                            "line_linked": {
-                                "opacity": 0.5
-                            }
-                        },
-                        "bubble": {
-                            "distance": 400,
-                            "size": 40,
-                            "duration": 2,
-                            "opacity": 8,
-                            "speed": 3
-                        },
-                        "repulse": {
-                            "distance": 200,
-                            "duration": 0.4
-                        },
-                        "push": {
-                            "particles_nb": 4
-                        }
-                    }
-                },
-                "retina_detect": true
-            });
-        }
-
-        // إدارة إدخال الكود
-        document.getElementById('passwordInput').addEventListener('input', function(e) {
-            enteredCode = e.target.value;
-        });
-
-        // التحقق من الكود عند الضغط على زر الدخول
-        document.getElementById('passwordBtn').addEventListener('click', function() {
-            if (enteredCode === CORRECT_CODE) {
-                // الكود صحيح
-                document.getElementById('passwordError').classList.remove('show');
-                
-                // إخفاء شاشة الحماية مع تأثير
-                document.getElementById('passwordProtection').style.opacity = '0';
-                document.getElementById('passwordProtection').style.pointerEvents = 'none';
-                
-                // إظهار شاشة التحميل
-                document.getElementById('loadingScreen').style.display = 'flex';
-                
-                // تهيئة الجسيمات للصفحة الرئيسية
-                initParticles();
-                
-                // بعد تأخير قصير، إظهار المحتوى الرئيسي
-                setTimeout(function() {
-                    document.getElementById('loadingScreen').style.opacity = '0';
-                    document.getElementById('loadingScreen').style.pointerEvents = 'none';
-                    
-                    document.getElementById('mainContent').style.display = 'block';
-                    setTimeout(function() {
-                        document.getElementById('mainContent').style.opacity = '1';
-                    }, 50);
-                }, 2000);
-            } else {
-                // الكود غير صحيح
-                document.getElementById('passwordError').classList.add('show');
-                document.getElementById('passwordInput').value = '';
-                enteredCode = '';
-            }
-        });
-
-        // السماح بالدخول عند الضغط على Enter
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('passwordBtn').click();
-            }
-        });
-
-        // إدارة إرسال النموذج
-        document.getElementById('beat-submission-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // إظهار حالة التحميل
-            document.getElementById('formLoading').style.display = 'block';
-            
-            // هنا يمكنك إضافة كود إرسال النموذج إلى الخادم
-            // لأغراض العرض التوضيحي، سنستخدم setTimeout لمحاكاة الإرسال
-            
-            setTimeout(function() {
-                document.getElementById('formLoading').style.display = 'none';
-                
-                // إظهار رسالة نجاح (يمكن استبدالها بإعادة توجيه أو أي إجراء آخر)
-                alert('تم استلام طلبك بنجاح! سيتم مراجعته من قبل الفريق.');
-                
-                // إعادة تعيين النموذج
-                document.getElementById('beat-submission-form').reset();
-            }, 3000);
-        });
-
-        // تهيئة النجوم عند تحميل الصفحة
-        window.addEventListener('load', function() {
-            createStars();
-            initPasswordParticles();
-            
-            // إضافة تأثير الكتابة لكلمة "MIX BEAT"
-            const logo = document.querySelector('.password-logo');
-            logo.textContent = '';
-            const text = 'MIX BEAT';
-            let i = 0;
-            
-            function typeWriter() {
-                if (i < text.length) {
-                    logo.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 150);
-                }
-            }
-            
-            typeWriter();
-        });
-    </script>
-</body>
-</html>
+                    "number"
