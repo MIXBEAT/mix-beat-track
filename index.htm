@@ -1,621 +1,816 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-  <style>
-    .main_wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 30em;
-      height: 30em;
-    }
-
-    .main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: 5em;
-    }
-
-    .antenna {
-      width: 5em;
-      height: 5em;
-      border-radius: 50%;
-      border: 2px solid black;
-      background-color: #f27405;
-      margin-bottom: -6em;
-      margin-left: 0em;
-      z-index: -1;
-    }
-    .antenna_shadow {
-      position: absolute;
-      background-color: transparent;
-      width: 50px;
-      height: 56px;
-      margin-left: 1.68em;
-      border-radius: 45%;
-      transform: rotate(140deg);
-      border: 4px solid transparent;
-      box-shadow:
-        inset 0px 16px #a85103,
-        inset 0px 16px 1px 1px #a85103;
-      -moz-box-shadow:
-        inset 0px 16px #a85103,
-        inset 0px 16px 1px 1px #a85103;
-    }
-    .antenna::after {
-      content: "";
-      position: absolute;
-      margin-top: -9.4em;
-      margin-left: 0.4em;
-      transform: rotate(-25deg);
-      width: 1em;
-      height: 0.5em;
-      border-radius: 50%;
-      background-color: #f69e50;
-    }
-    .antenna::before {
-      content: "";
-      position: absolute;
-      margin-top: 0.2em;
-      margin-left: 1.25em;
-      transform: rotate(-20deg);
-      width: 1.5em;
-      height: 0.8em;
-      border-radius: 50%;
-      background-color: #f69e50;
-    }
-    .a1 {
-      position: relative;
-      top: -102%;
-      left: -130%;
-      width: 12em;
-      height: 5.5em;
-      border-radius: 50px;
-      background-image: linear-gradient(
-        #171717,
-        #171717,
-        #353535,
-        #353535,
-        #171717
-      );
-      transform: rotate(-29deg);
-      clip-path: polygon(50% 0%, 49% 100%, 52% 100%);
-    }
-    .a1d {
-      position: relative;
-      top: -211%;
-      left: -35%;
-      transform: rotate(45deg);
-      width: 0.5em;
-      height: 0.5em;
-      border-radius: 50%;
-      border: 2px solid black;
-      background-color: #979797;
-      z-index: 99;
-    }
-    .a2 {
-      position: relative;
-      top: -210%;
-      left: -10%;
-      width: 12em;
-      height: 4em;
-      border-radius: 50px;
-      background-color: #171717;
-      background-image: linear-gradient(
-        #171717,
-        #171717,
-        #353535,
-        #353535,
-        #171717
-      );
-      margin-right: 5em;
-      clip-path: polygon(
-        47% 0,
-        47% 0,
-        34% 34%,
-        54% 25%,
-        32% 100%,
-        29% 96%,
-        49% 32%,
-        30% 38%
-      );
-      transform: rotate(-8deg);
-    }
-    .a2d {
-      position: relative;
-      top: -294%;
-      left: 94%;
-      width: 0.5em;
-      height: 0.5em;
-      border-radius: 50%;
-      border: 2px solid black;
-      background-color: #979797;
-      z-index: 99;
-    }
-
-    .notfound_text {
-      background-color: black;
-      padding-left: 0.3em;
-      padding-right: 0.3em;
-      font-size: 0.75em;
-      color: white;
-      letter-spacing: 0;
-      border-radius: 5px;
-      z-index: 10;
-    }
-    .tv {
-      width: 17em;
-      height: 9em;
-      margin-top: 3em;
-      border-radius: 15px;
-      background-color: #d36604;
-      display: flex;
-      justify-content: center;
-      border: 2px solid #1d0e01;
-      box-shadow: inset 0.2em 0.2em #e69635;
-    }
-    .tv::after {
-      content: "";
-      position: absolute;
-      width: 17em;
-      height: 9em;
-      border-radius: 15px;
-      background:
-        repeating-radial-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 50% 0/2500px
-          2500px,
-        repeating-conic-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 60% 60%/2500px
-          2500px;
-      background-blend-mode: difference;
-      opacity: 0.09;
-    }
-    .curve_svg {
-      position: absolute;
-      margin-top: 0.25em;
-      margin-left: -0.25em;
-      height: 12px;
-      width: 12px;
-    }
-    .display_div {
-      display: flex;
-      align-items: center;
-      align-self: center;
-      justify-content: center;
-      border-radius: 15px;
-      box-shadow: 3.5px 3.5px 0px #e69635;
-    }
-    .screen_out {
-      width: auto;
-      height: auto;
-
-      border-radius: 10px;
-    }
-    .screen_out1 {
-      width: 11em;
-      height: 7.75em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-    }
-    .screen {
-      width: 13em;
-      height: 7.85em;
-      font-family: Montserrat;
-      border: 2px solid #1d0e01;
-      background:
-        repeating-radial-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 50% 0/2500px
-          2500px,
-        repeating-conic-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 60% 60%/2500px
-          2500px;
-      background-blend-mode: difference;
-      animation: b 0.2s infinite alternate;
-      border-radius: 10px;
-      z-index: 99;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #252525;
-      letter-spacing: 0.15em;
-      text-align: center;
-    }
-
-    .screenM {
-      width: 13em;
-      height: 7.85em;
-      position: relative;
-      font-family: Montserrat;
-      background: linear-gradient(
-        to right,
-        #002fc6 0%,
-        #002bb2 14.2857142857%,
-        #3a3a3a 14.2857142857%,
-        #303030 28.5714285714%,
-        #ff0afe 28.5714285714%,
-        #f500f4 42.8571428571%,
-        #6c6c6c 42.8571428571%,
-        #626262 57.1428571429%,
-        #0affd9 57.1428571429%,
-        #00f5ce 71.4285714286%,
-        #3a3a3a 71.4285714286%,
-        #303030 85.7142857143%,
-        white 85.7142857143%,
-        #fafafa 100%
-      );
-      border-radius: 10px;
-      border: 2px solid black;
-      z-index: 99;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #252525;
-      letter-spacing: 0.15em;
-      text-align: center;
-      overflow: hidden;
-    }
-    .screenM:before,
-    .screenM:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-    }
-    .screenM:before {
-      top: 0;
-      height: 68.4782608696%;
-      background: linear-gradient(
-        to right,
-        white 0%,
-        #fafafa 14.2857142857%,
-        #ffe60a 14.2857142857%,
-        #f5dc00 28.5714285714%,
-        #0affd9 28.5714285714%,
-        #00f5ce 42.8571428571%,
-        #10ea00 42.8571428571%,
-        #0ed600 57.1428571429%,
-        #ff0afe 57.1428571429%,
-        #f500f4 71.4285714286%,
-        #ed0014 71.4285714286%,
-        #d90012 85.7142857143%,
-        #002fc6 85.7142857143%,
-        #002bb2 100%
-      );
-    }
-    .screenM:after {
-      bottom: 0;
-      height: 21.7391304348%;
-      background: linear-gradient(
-        to right,
-        #006c6b 0%,
-        #005857 16.6666666667%,
-        white 16.6666666667%,
-        #fafafa 33.3333333333%,
-        #001b75 33.3333333333%,
-        #001761 50%,
-        #6c6c6c 50%,
-        #626262 66.6666666667%,
-        #929292 66.6666666667%,
-        #888888 83.3333333333%,
-        #3a3a3a 83.3333333333%,
-        #303030 100%
-      );
-    }
-
-    @keyframes b {
-      100% {
-        background-position:
-          50% 0,
-          60% 50%;
-      }
-    }
-
-    .lines {
-      display: flex;
-      column-gap: 0.1em;
-      align-self: flex-end;
-    }
-    .line1,
-    .line3 {
-      width: 2px;
-      height: 0.5em;
-      background-color: black;
-      border-radius: 25px 25px 0px 0px;
-      margin-top: 0.5em;
-    }
-    .line2 {
-      flex-grow: 1;
-      width: 2px;
-      height: 1em;
-      background-color: black;
-      border-radius: 25px 25px 0px 0px;
-    }
-
-    .buttons_div {
-      width: 4.25em;
-      align-self: center;
-      height: 8em;
-      background-color: #e69635;
-      border: 2px solid #1d0e01;
-      padding: 0.6em;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      row-gap: 0.75em;
-      box-shadow: 3px 3px 0px #e69635;
-    }
-    .b1 {
-      width: 1.65em;
-      height: 1.65em;
-      border-radius: 50%;
-      background-color: #7f5934;
-      border: 2px solid black;
-      box-shadow:
-        inset 2px 2px 1px #b49577,
-        -2px 0px #513721,
-        -2px 0px 0px 1px black;
-    }
-    .b1::before {
-      content: "";
-      position: absolute;
-      margin-top: 1em;
-      margin-left: 0.5em;
-      transform: rotate(47deg);
-      border-radius: 5px;
-      width: 0.1em;
-      height: 0.4em;
-      background-color: #000000;
-    }
-    .b1::after {
-      content: "";
-      position: absolute;
-      margin-top: 0.9em;
-      margin-left: 0.8em;
-      transform: rotate(47deg);
-      border-radius: 5px;
-      width: 0.1em;
-      height: 0.55em;
-      background-color: #000000;
-    }
-    .b1 div {
-      content: "";
-      position: absolute;
-      margin-top: -0.1em;
-      margin-left: 0.65em;
-      transform: rotate(45deg);
-      width: 0.15em;
-      height: 1.5em;
-      background-color: #000000;
-    }
-    .b2 {
-      width: 1.65em;
-      height: 1.65em;
-      border-radius: 50%;
-      background-color: #7f5934;
-      border: 2px solid black;
-      box-shadow:
-        inset 2px 2px 1px #b49577,
-        -2px 0px #513721,
-        -2px 0px 0px 1px black;
-    }
-    .b2::before {
-      content: "";
-      position: absolute;
-      margin-top: 1.05em;
-      margin-left: 0.8em;
-      transform: rotate(-45deg);
-      border-radius: 5px;
-      width: 0.15em;
-      height: 0.4em;
-      background-color: #000000;
-    }
-    .b2::after {
-      content: "";
-      position: absolute;
-      margin-top: -0.1em;
-      margin-left: 0.65em;
-      transform: rotate(-45deg);
-      width: 0.15em;
-      height: 1.5em;
-      background-color: #000000;
-    }
-    .speakers {
-      display: flex;
-      flex-direction: column;
-      row-gap: 0.5em;
-    }
-    .speakers .g1 {
-      display: flex;
-      column-gap: 0.25em;
-    }
-    .speakers .g1 .g11,
-    .g12,
-    .g13 {
-      width: 0.65em;
-      height: 0.65em;
-      border-radius: 50%;
-      background-color: #7f5934;
-      border: 2px solid black;
-      box-shadow: inset 1.25px 1.25px 1px #b49577;
-    }
-    .speakers .g {
-      width: auto;
-      height: 2px;
-      background-color: #171717;
-    }
-
-    .bottom {
-      width: 100%;
-      height: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      column-gap: 8.7em;
-    }
-    .base1 {
-      height: 1em;
-      width: 2em;
-      border: 2px solid #171717;
-      background-color: #4d4d4d;
-      margin-top: -0.15em;
-      z-index: -1;
-    }
-    .base2 {
-      height: 1em;
-      width: 2em;
-      border: 2px solid #171717;
-      background-color: #4d4d4d;
-      margin-top: -0.15em;
-      z-index: -1;
-    }
-    .base3 {
-      position: absolute;
-      height: 0.15em;
-      width: 17.5em;
-      background-color: #171717;
-      margin-top: 0.8em;
-    }
-
-    .text_404 {
-      position: absolute;
-      display: flex;
-      flex-direction: row;
-      column-gap: 6em;
-      z-index: -5;
-      margin-bottom: 2em;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.5;
-      font-family: Montserrat;
-    }
-    .text_4041 {
-      transform: scaleY(24.5) scaleX(9);
-    }
-    .text_4042 {
-      transform: scaleY(24.5) scaleX(9);
-    }
-    .text_4043 {
-      transform: scaleY(24.5) scaleX(9);
-    }
-
-    @media only screen and (max-width: 495px) {
-      .text_404 {
-        column-gap: 6em;
-      }
-    }
-    @media only screen and (max-width: 395px) {
-      .text_404 {
-        column-gap: 4em;
-      }
-      .text_4041 {
-        transform: scaleY(25) scaleX(8);
-      }
-      .text_4042 {
-        transform: scaleY(25) scaleX(8);
-      }
-      .text_4043 {
-        transform: scaleY(25) scaleX(8);
-      }
-    }
-
-    @media (max-width: 275px), (max-height: 520px) {
-      .main {
-        position: relative;
-      }
-    }
-
-    @media only screen and (max-width: 1024px) {
-      .screenM {
-        display: flex;
-      }
-      .screen {
-        display: none;
-      }
-    }
-    @media only screen and (min-width: 1025px) {
-      .screen {
-        display: flex;
-      }
-      .screenM {
-        display: none;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIX BEAT - توزيع منصات الأغاني</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --dark: #333;
+            --light: #fff;
+            --gray: #f5f7fa;
+            --error: #ff4757;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            transform: translateZ(50px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-left: 1rem;
+            filter: brightness(0.9);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        
+        .artist-name {
+            font-size: 1.1rem;
+            color: var(--primary);
+            background-color: var(--gray);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 300;
+            transform: translateZ(30px);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+        
+        .floating-platforms {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 2rem auto;
+            transform-style: preserve-3d;
+        }
+        
+        .platform {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--dark);
+            backface-visibility: hidden;
+            transition: all 0.5s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .platform:nth-child(1) {
+            transform: translateZ(80px) rotate(-5deg);
+            top: 20px;
+            left: 50px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .platform:nth-child(2) {
+            transform: translateZ(40px) rotate(5deg);
+            top: 100px;
+            left: 200px;
+            animation: float 7s ease-in-out infinite 0.5s;
+        }
+        
+        .platform:nth-child(3) {
+            transform: translateZ(60px) rotate(-3deg);
+            top: 50px;
+            right: 100px;
+            animation: float 8s ease-in-out infinite 1s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(80px) rotate(-5deg); }
+            50% { transform: translateY(-20px) translateZ(80px) rotate(-5deg); }
+        }
+        
+        .form-container {
+            background: var(--light);
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transform: translateZ(80px);
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-container:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transform: translateZ(90px);
+        }
+        
+        .upload-container {
+            display: none;
+            background: var(--light);
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transform: translateZ(80px);
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .track-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .track-item {
+            background: var(--gray);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .remove-track {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: var(--error);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateZ(80px) translateY(20px); }
+            to { opacity: 1; transform: translateZ(80px) translateY(0); }
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            font-size: 1.6rem;
+            font-weight: 400;
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: var(--dark);
+            font-weight: 300;
+            font-size: 0.95rem;
+        }
+        
+        .required:after {
+            content: " *";
+            color: var(--error);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--gray);
+            color: var(--dark);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(106,17,203,0.1);
+        }
+        
+        .file-upload {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed rgba(106,17,203,0.3);
+            border-radius: 10px;
+            background-color: rgba(106,17,203,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
+            background-color: rgba(106,17,203,0.1);
+        }
+        
+        .file-upload i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        
+        .file-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--primary);
+            display: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--light);
+            font-size: 1rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(106,17,203,0.2);
+            margin-top: 1rem;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(106,17,203,0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .album-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-left: 10px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .wave-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%236a11cb" opacity=".05"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%236a11cb" opacity=".1"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%236a11cb" opacity=".15"/></svg>');
+            background-size: cover;
+            z-index: -1;
+            transform: translateZ(20px);
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 1.5rem;
+            }
+            
+            .artist-name {
+                margin-top: 1rem;
+            }
+            
+            .floating-platforms {
+                height: 250px;
+            }
+            
+            .platform {
+                width: 90px;
+                height: 90px;
+                font-size: 1rem;
+            }
+            
+            .platform:nth-child(1) {
+                top: 30px;
+                left: 20px;
+            }
+            
+            .platform:nth-child(2) {
+                top: 90px;
+                left: 120px;
+            }
+            
+            .platform:nth-child(3) {
+                top: 40px;
+                right: 40px;
+            }
+            
+            .form-container, .upload-container {
+                padding: 1.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <div class="main_wrapper">
-    <div class="main">
-      <div class="antenna">
-        <div class="antenna_shadow"></div>
-        <div class="a1"></div>
-        <div class="a1d"></div>
-        <div class="a2"></div>
-        <div class="a2d"></div>
-        <div class="a_base"></div>
-      </div>
-      <div class="tv">
-        <div class="cruve">
-          <svg
-            class="curve_svg"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            viewBox="0 0 189.929 189.929"
-            xml:space="preserve"
-          >
-            <path
-              d="M70.343,70.343c-30.554,30.553-44.806,72.7-39.102,115.635l-29.738,3.951C-5.442,137.659,11.917,86.34,49.129,49.13
-          C86.34,11.918,137.664-5.445,189.928,1.502l-3.95,29.738C143.041,25.54,100.895,39.789,70.343,70.343z"
-            ></path>
-          </svg>
-        </div>
-        <div class="display_div">
-          <div class="screen_out">
-            <div class="screen_out1">
-              <div class="screen">
-                <span class="notfound_text"> There is no now</span>
-              </div>
-              <div class="screenM">
-                <span class="notfound_text"> There is no now</span>
-              </div>
+    <div class="wave-bg"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://i.postimg.cc/W4sNxJtm/20250609-161448.png" alt="MIX BEAT Logo">
+                <h1>MIX BEAT</h1>
             </div>
-          </div>
-        </div>
-        <div class="lines">
-          <div class="line1"></div>
-          <div class="line2"></div>
-          <div class="line3"></div>
-        </div>
-        <div class="buttons_div">
-          <div class="b1"><div></div></div>
-          <div class="b2"></div>
-          <div class="speakers">
-            <div class="g1">
-              <div class="g11"></div>
-              <div class="g12"></div>
-              <div class="g13"></div>
+            <div class="artist-name" id="artist-name-display">مرحباً بك!</div>
+        </header>
+        
+        <main class="main-content">
+            <div class="floating-platforms">
+                <div class="platform">Spotify</div>
+                <div class="platform">Apple Music</div>
+                <div class="platform">Anghami</div>
             </div>
-            <div class="g"></div>
-            <div class="g"></div>
-          </div>
-        </div>
-      </div>
-      <div class="bottom">
-        <div class="base1"></div>
-        <div class="base2"></div>
-        <div class="base3"></div>
-      </div>
+            
+            <div class="form-container" id="registration-form">
+                <h2>طلب توزيع منصات الأغاني</h2>
+                <form id="artist-form">
+                    <div class="form-group">
+                        <label for="artist-name" class="required">اسم الفنان</label>
+                        <input type="text" id="artist-name" required placeholder="أدخل اسمك الفني">
+                    </div>
+                    <div class="form-group">
+                        <label for="artist-email" class="required">البريد الإلكتروني</label>
+                        <input type="email" id="artist-email" required placeholder="أدخل بريدك الإلكتروني">
+                    </div>
+                    <button type="submit">إرسال الطلب</button>
+                </form>
+            </div>
+            
+            <div class="upload-container" id="upload-section">
+                <h2>رفع التراكات الموسيقية</h2>
+                
+                <div class="album-toggle">
+                    <span>هل هذه الأغاني جزء من ألبوم؟</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="is-album">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div id="album-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="album-name">اسم الألبوم</label>
+                        <input type="text" id="album-name" placeholder="اسم الألبوم (اختياري)">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">رفع التراكات الموسيقية</label>
+                    <div class="file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>اسحب وأسقط الملفات هنا أو انقر للاختيار</span>
+                        <input type="file" id="track-upload" accept=".mp3,.wav,.aac" multiple>
+                        <div class="file-info" id="file-info"></div>
+                    </div>
+                </div>
+                
+                <div class="track-list" id="track-list"></div>
+                
+                <div class="form-group">
+                    <label for="track-name" class="required">اسم التراك</label>
+                    <input type="text" id="track-name" placeholder="اسم الأغنية">
+                </div>
+                
+                <div class="form-group">
+                    <label for="genre" class="required">نوع الموسيقى</label>
+                    <select id="genre" required>
+                        <option value="">اختر نوع الموسيقى</option>
+                        <option value="pop">بوب</option>
+                        <option value="hiphop">هيب هوب</option>
+                        <option value="rap">راب</option>
+                        <option value="rock">روك</option>
+                        <option value="jazz">جاز</option>
+                        <option value="classical">كلاسيكي</option>
+                        <option value="electronic">إلكتروني</option>
+                        <option value="reggae">ريغي</option>
+                        <option value="blues">بلوز</option>
+                        <option value="country">كانتري</option>
+                        <option value="rnb">آر أند بي</option>
+                        <option value="other">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="release-date">تاريخ الإصدار</label>
+                    <input type="date" id="release-date">
+                </div>
+                
+                <div class="form-group">
+                    <label for="writer-name">اسم الكاتب</label>
+                    <input type="text" id="writer-name" placeholder="اسم كاتب الأغنية">
+                </div>
+                
+                <div class="form-group">
+                    <label for="producer-name">اسم المنتج</label>
+                    <input type="text" id="producer-name" placeholder="اسم منتج الأغنية">
+                </div>
+                
+                <div class="form-group">
+                    <label for="company-name">الشركة المنتجة</label>
+                    <input type="text" id="company-name" placeholder="اسم الشركة المنتجة">
+                </div>
+                
+                <button id="upload-btn"><i class="fas fa-paper-plane"></i> إرسال البيانات</button>
+            </div>
+        </main>
     </div>
-    <div class="text_404">
-      <div class="text_4041">4</div>
-      <div class="text_4042">0</div>
-      <div class="text_4043">4</div>
-    </div>
-  </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر DOM
+            const form = document.getElementById('artist-form');
+            const registrationForm = document.getElementById('registration-form');
+            const uploadSection = document.getElementById('upload-section');
+            const isAlbumCheckbox = document.getElementById('is-album');
+            const albumFields = document.getElementById('album-fields');
+            const fileUpload = document.getElementById('track-upload');
+            const trackList = document.getElementById('track-list');
+            const uploadBtn = document.getElementById('upload-btn');
+            const artistNameDisplay = document.getElementById('artist-name-display');
+            
+            // بيانات التطبيق
+            let currentArtist = null;
+            let tracks = [];
+            
+            // إدارة نموذج التسجيل
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const artistName = document.getElementById('artist-name').value;
+                const artistEmail = document.getElementById('artist-email').value;
+                
+                if (!artistName || !artistEmail) {
+                    showNotification('الرجاء ملء جميع الحقول المطلوبة', 'error');
+                    return;
+                }
+                
+                // حفظ بيانات الفنان
+                currentArtist = {
+                    name: artistName,
+                    email: artistEmail,
+                    date: new Date().toLocaleString()
+                };
+                
+                // تحديث اسم الفنان في الأعلى
+                artistNameDisplay.textContent = artistName;
+                
+                // إعادة تعيين النموذج
+                form.reset();
+                
+                // إظهار قسم رفع التراكات
+                registrationForm.style.display = 'none';
+                uploadSection.classList.add('active');
+                
+                // عرض تنبيه
+                showNotification(`مرحباً ${artistName}! يمكنك الآن رفع تراكاتك`);
+            });
+            
+            // تبديل حالة الألبوم
+            isAlbumCheckbox.addEventListener('change', function() {
+                albumFields.style.display = this.checked ? 'block' : 'none';
+            });
+            
+            // إدارة رفع الملفات
+            fileUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    tracks = Array.from(this.files);
+                    updateTrackList();
+                }
+            });
+            
+            // تحديث قائمة التراكات
+            function updateTrackList() {
+                trackList.innerHTML = '';
+                
+                if (tracks.length === 0) {
+                    trackList.innerHTML = '<p style="text-align:center;color:#666;">لا توجد تراكات مرفوعة بعد</p>';
+                    return;
+                }
+                
+                tracks.forEach((file, index) => {
+                    const trackItem = document.createElement('div');
+                    trackItem.className = 'track-item';
+                    trackItem.innerHTML = `
+                        <button class="remove-track" data-index="${index}">×</button>
+                        <div style="font-weight:500;">${file.name}</div>
+                        <div style="font-size:0.8rem;color:#666;">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                    `;
+                    trackList.appendChild(trackItem);
+                });
+                
+                // إضافة أحداث لإزالة التراكات
+                document.querySelectorAll('.remove-track').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        tracks.splice(index, 1);
+                        updateTrackList();
+                    });
+                });
+            }
+            
+            // إرسال البيانات النهائية
+            uploadBtn.addEventListener('click', function() {
+                if (!validateUploadForm()) return;
+                
+                // جمع البيانات
+                const formData = {
+                    artist: currentArtist,
+                    track: {
+                        name: document.getElementById('track-name').value,
+                        genre: document.getElementById('genre').value,
+                        releaseDate: document.getElementById('release-date').value,
+                        writer: document.getElementById('writer-name').value,
+                        producer: document.getElementById('producer-name').value,
+                        company: document.getElementById('company-name').value
+                    },
+                    isAlbum: isAlbumCheckbox.checked,
+                    albumName: isAlbumCheckbox.checked ? document.getElementById('album-name').value : null,
+                    tracks: tracks.map(file => file.name),
+                    submissionDate: new Date().toLocaleString()
+                };
+                
+                // هنا يمكنك إضافة كود لإرسال البيانات إلى الخادم
+                // سنقوم بمحاكاة عملية الإرسال
+                uploadBtn.disabled = true;
+                uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+                
+                setTimeout(() => {
+                    // إرسال البريد الإلكتروني (محاكاة)
+                    sendEmail(formData);
+                    
+                    showNotification('تم إرسال البيانات بنجاح! سنتواصل معك قريباً');
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال البيانات';
+                    
+                    // إعادة تعيين النموذج
+                    resetUploadForm();
+                }, 2000);
+            });
+            
+            // التحقق من صحة نموذج الرفع
+            function validateUploadForm() {
+                if (tracks.length === 0) {
+                    showNotification('الرجاء رفع ملفات التراكات أولاً', 'error');
+                    return false;
+                }
+                
+                if (!document.getElementById('track-name').value) {
+                    showNotification('الرجاء إدخال اسم التراك', 'error');
+                    return false;
+                }
+                
+                if (!document.getElementById('genre').value) {
+                    showNotification('الرجاء اختيار نوع الموسيقى', 'error');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // إعادة تعيين نموذج الرفع
+            function resetUploadForm() {
+                tracks = [];
+                updateTrackList();
+                document.getElementById('track-name').value = '';
+                document.getElementById('genre').value = '';
+                document.getElementById('release-date').value = '';
+                document.getElementById('writer-name').value = '';
+                document.getElementById('producer-name').value = '';
+                document.getElementById('company-name').value = '';
+                document.getElementById('is-album').checked = false;
+                document.getElementById('album-name').value = '';
+                albumFields.style.display = 'none';
+                fileUpload.value = '';
+            }
+            
+            // محاكاة إرسال البريد الإلكتروني
+            function sendEmail(data) {
+                // في الواقع، هنا ستقوم بإرسال البيانات إلى الخادم
+                // الذي سيقوم بدوره بإرسال بريد إلكتروني إلى mix8eat@gmail.com
+                
+                console.log('إرسال بيانات إلى mix8eat@gmail.com:', data);
+                
+                // يمكنك استخدام هذا النص لإنشاء محتوى البريد الإلكتروني
+                const emailContent = `
+                    <h1>طلب توزيع جديد من ${data.artist.name}</h1>
+                    <h2>معلومات الفنان:</h2>
+                    <p><strong>الاسم:</strong> ${data.artist.name}</p>
+                    <p><strong>البريد الإلكتروني:</strong> ${data.artist.email}</p>
+                    <p><strong>تاريخ التسجيل:</strong> ${data.artist.date}</p>
+                    
+                    <h2>معلومات التراك:</h2>
+                    <p><strong>اسم التراك:</strong> ${data.track.name}</p>
+                    <p><strong>النوع:</strong> ${data.track.genre}</p>
+                    ${data.track.releaseDate ? `<p><strong>تاريخ الإصدار:</strong> ${data.track.releaseDate}</p>` : ''}
+                    ${data.track.writer ? `<p><strong>الكاتب:</strong> ${data.track.writer}</p>` : ''}
+                    ${data.track.producer ? `<p><strong>المنتج:</strong> ${data.track.producer}</p>` : ''}
+                    ${data.track.company ? `<p><strong>الشركة:</strong> ${data.track.company}</p>` : ''}
+                    
+                    ${data.isAlbum ? `<h3>الألبوم: ${data.albumName || 'بدون اسم'}</h3>` : ''}
+                    
+                    <h2>التراكات المرفوعة (${data.tracks.length}):</h2>
+                    <ul>
+                        ${data.tracks.map(track => `<li>${track}</li>`).join('')}
+                    </ul>
+                    
+                    <p><strong>تاريخ الإرسال:</strong> ${data.submissionDate}</p>
+                `;
+                
+                console.log('محتوى البريد الإلكتروني:', emailContent);
+                
+                // في تطبيق حقيقي، ستقوم بإرسال هذه البيانات إلى الخادم
+                // باستخدام fetch أو XMLHttpRequest
+            }
+            
+            // تأثيرات العوامات
+            const platforms = document.querySelectorAll('.platform');
+            platforms.forEach((platform, index) => {
+                platform.addEventListener('mouseenter', () => {
+                    platform.style.transform = `translateZ(100px) rotate(${index % 2 ? 5 : -5}deg) scale(1.1)`;
+                });
+                
+                platform.addEventListener('mouseleave', () => {
+                    const transforms = [
+                        'translateZ(80px) rotate(-5deg)',
+                        'translateZ(40px) rotate(5deg)',
+                        'translateZ(60px) rotate(-3deg)'
+                    ];
+                    platform.style.transform = transforms[index];
+                });
+            });
+        });
+        
+        // دالة لعرض الإشعارات
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%) translateZ(100px)';
+            notification.style.backgroundColor = type === 'error' ? 'rgba(255, 71, 87, 0.9)' : 'rgba(106,17,203,0.9)';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '1000';
+            notification.style.animation = 'fadeIn 0.3s ease-out';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+            
+            // إضافة أنيميشن إذا لم تكن موجودة
+            if (!document.getElementById('notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateX(-50%) translateY(20px) translateZ(100px); }
+                        to { opacity: 1; transform: translateX(-50%) translateY(0) translateZ(100px); }
+                    }
+                    @keyframes fadeOut {
+                        from { opacity: 1; transform: translateX(-50%) translateY(0) translateZ(100px); }
+                        to { opacity: 0; transform: translateX(-50%) translateY(20px) translateZ(100px); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+    </script>
 </body>
 </html>
