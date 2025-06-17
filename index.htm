@@ -14,6 +14,7 @@
             --light: #fff;
             --gray: #f5f7fa;
             --error: #ff4757;
+            --success: #2ed573;
         }
         
         * {
@@ -373,6 +374,31 @@
             transform: translateX(26px);
         }
         
+        .confirmation-message {
+            text-align: center;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: rgba(46, 213, 115, 0.1);
+            border-radius: 10px;
+            border-right: 4px solid var(--success);
+            max-width: 600px;
+            display: none;
+        }
+        
+        .confirmation-message h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-message p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .submission-id {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
         .wave-bg {
             position: fixed;
             bottom: 0;
@@ -541,6 +567,14 @@
                 
                 <button id="upload-btn"><i class="fas fa-paper-plane"></i> إرسال البيانات</button>
             </div>
+            
+            <div class="confirmation-message" id="confirmation-message">
+                <h3><i class="fas fa-check-circle"></i> تم استلام طلبك بنجاح</h3>
+                <p>شكراً لتسجيلك مع <strong>MIX BEAT</strong></p>
+                <p>سيتم الرد عليك خلال <strong>48 ساعة</strong> على بريدك الإلكتروني</p>
+                <p>رقم الطلب: <span class="submission-id" id="submission-id"></span></p>
+                <p>لأي استفسار، يرجى التواصل على <strong>mix8eat@gmail.com</strong></p>
+            </div>
         </main>
     </div>
 
@@ -556,6 +590,8 @@
             const trackList = document.getElementById('track-list');
             const uploadBtn = document.getElementById('upload-btn');
             const artistNameDisplay = document.getElementById('artist-name-display');
+            const confirmationMessage = document.getElementById('confirmation-message');
+            const submissionId = document.getElementById('submission-id');
             
             // بيانات التطبيق
             let currentArtist = null;
@@ -589,6 +625,7 @@
                 // إظهار قسم رفع التراكات
                 registrationForm.style.display = 'none';
                 uploadSection.classList.add('active');
+                confirmationMessage.style.display = 'none';
                 
                 // عرض تنبيه
                 showNotification(`مرحباً ${artistName}! يمكنك الآن رفع تراكاتك`);
@@ -658,22 +695,16 @@
                     submissionDate: new Date().toLocaleString()
                 };
                 
-                // هنا يمكنك إضافة كود لإرسال البيانات إلى الخادم
-                // سنقوم بمحاكاة عملية الإرسال
+                // إرسال البيانات
                 uploadBtn.disabled = true;
                 uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
                 
-                setTimeout(() => {
-                    // إرسال البريد الإلكتروني (محاكاة)
-                    sendEmail(formData);
-                    
-                    showNotification('تم إرسال البيانات بنجاح! سنتواصل معك قريباً');
-                    uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال البيانات';
-                    
-                    // إعادة تعيين النموذج
-                    resetUploadForm();
-                }, 2000);
+                // إنشاء رقم طلب عشوائي
+                const randomId = 'MB-' + Math.floor(100000 + Math.random() * 900000);
+                submissionId.textContent = randomId;
+                
+                // إرسال البيانات إلى Telegram
+                sendToTelegram(formData, randomId);
             });
             
             // التحقق من صحة نموذج الرفع
@@ -696,6 +727,72 @@
                 return true;
             }
             
+            // إرسال البيانات إلى Telegram
+            function sendToTelegram(formData, submissionId) {
+                const telegramBotToken = 'YOUR_TELEGRAM_BOT_TOKEN';
+                const chatId = '201152830940'; // رقم التليجرام المطلوب
+                
+                // بناء رسالة التليجرام
+                let message = `🎵 *طلب توزيع جديد* 🎵\n\n`;
+                message += `*اسم الفنان:* ${formData.artist.name}\n`;
+                message += `*البريد الإلكتروني:* ${formData.artist.email}\n\n`;
+                message += `*تفاصيل التراك:*\n`;
+                message += `- اسم التراك: ${formData.track.name}\n`;
+                message += `- نوع الموسيقى: ${formData.track.genre}\n`;
+                message += `- تاريخ الإصدار: ${formData.track.releaseDate || 'غير محدد'}\n`;
+                message += `- الكاتب: ${formData.track.writer || 'غير محدد'}\n`;
+                message += `- المنتج: ${formData.track.producer || 'غير محدد'}\n`;
+                message += `- الشركة المنتجة: ${formData.track.company || 'غير محدد'}\n\n`;
+                
+                if (formData.isAlbum) {
+                    message += `*الألبوم:* ${formData.albumName}\n\n`;
+                }
+                
+                message += `*التراكات المرفوعة:*\n`;
+                formData.tracks.forEach((track, index) => {
+                    message += `${index + 1}. ${track}\n`;
+                });
+                
+                message += `\n*معلومات الإرسال:*\n`;
+                message += `- رقم الطلب: ${submissionId}\n`;
+                message += `- تاريخ الطلب: ${formData.submissionDate}\n`;
+                
+                // تشفير الرسالة لرابط URL
+                const encodedMessage = encodeURIComponent(message);
+                
+                // إنشاء رابط API Telegram
+                const apiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}&parse_mode=Markdown`;
+                
+                // إرسال الطلب
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.ok) {
+                            // إظهار رسالة التأكيد
+                            confirmationMessage.style.display = 'block';
+                            uploadSection.style.display = 'none';
+                            
+                            // التمرير إلى رسالة التأكيد
+                            confirmationMessage.scrollIntoView({ behavior: 'smooth' });
+                            
+                            showNotification('تم إرسال طلبك بنجاح!', 'success');
+                            uploadBtn.disabled = false;
+                            uploadBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال البيانات';
+                            
+                            // إعادة تعيين النموذج
+                            resetUploadForm();
+                        } else {
+                            throw new Error('فشل إرسال الرسالة');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showNotification('حدث خطأ في الإرسال، يرجى المحاولة لاحقاً', 'error');
+                        uploadBtn.disabled = false;
+                        uploadBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال البيانات';
+                    });
+            }
+            
             // إعادة تعيين نموذج الرفع
             function resetUploadForm() {
                 tracks = [];
@@ -710,45 +807,6 @@
                 document.getElementById('album-name').value = '';
                 albumFields.style.display = 'none';
                 fileUpload.value = '';
-            }
-            
-            // محاكاة إرسال البريد الإلكتروني
-            function sendEmail(data) {
-                // في الواقع، هنا ستقوم بإرسال البيانات إلى الخادم
-                // الذي سيقوم بدوره بإرسال بريد إلكتروني إلى mix8eat@gmail.com
-                
-                console.log('إرسال بيانات إلى mix8eat@gmail.com:', data);
-                
-                // يمكنك استخدام هذا النص لإنشاء محتوى البريد الإلكتروني
-                const emailContent = `
-                    <h1>طلب توزيع جديد من ${data.artist.name}</h1>
-                    <h2>معلومات الفنان:</h2>
-                    <p><strong>الاسم:</strong> ${data.artist.name}</p>
-                    <p><strong>البريد الإلكتروني:</strong> ${data.artist.email}</p>
-                    <p><strong>تاريخ التسجيل:</strong> ${data.artist.date}</p>
-                    
-                    <h2>معلومات التراك:</h2>
-                    <p><strong>اسم التراك:</strong> ${data.track.name}</p>
-                    <p><strong>النوع:</strong> ${data.track.genre}</p>
-                    ${data.track.releaseDate ? `<p><strong>تاريخ الإصدار:</strong> ${data.track.releaseDate}</p>` : ''}
-                    ${data.track.writer ? `<p><strong>الكاتب:</strong> ${data.track.writer}</p>` : ''}
-                    ${data.track.producer ? `<p><strong>المنتج:</strong> ${data.track.producer}</p>` : ''}
-                    ${data.track.company ? `<p><strong>الشركة:</strong> ${data.track.company}</p>` : ''}
-                    
-                    ${data.isAlbum ? `<h3>الألبوم: ${data.albumName || 'بدون اسم'}</h3>` : ''}
-                    
-                    <h2>التراكات المرفوعة (${data.tracks.length}):</h2>
-                    <ul>
-                        ${data.tracks.map(track => `<li>${track}</li>`).join('')}
-                    </ul>
-                    
-                    <p><strong>تاريخ الإرسال:</strong> ${data.submissionDate}</p>
-                `;
-                
-                console.log('محتوى البريد الإلكتروني:', emailContent);
-                
-                // في تطبيق حقيقي، ستقوم بإرسال هذه البيانات إلى الخادم
-                // باستخدام fetch أو XMLHttpRequest
             }
             
             // تأثيرات العوامات
